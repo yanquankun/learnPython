@@ -1,6 +1,10 @@
 # learnPython
 自学习python的仓库
 
+---
+
+# 项目开始前
+
 ##### 生成虚拟环境（使用虚拟环境，类似node项目中单个项目的node_modules，否则使用的是全局python的依赖包）
 ```bash
 python -m venv venv
