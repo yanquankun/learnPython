@@ -6,6 +6,15 @@
 
 # 项目开始前
 
+##### 安装python
+
+``` bash
+# macOS (我选择了最新的stable版本，实际我本机装了2.7、3.9和3.10的包，brew需要自行安装)
+brew install python@3.10
+# Windows
+# 直接去官网下载安装包
+```
+
 ##### 生成虚拟环境（使用虚拟环境，类似node项目中单个项目的node_modules，否则使用的是全局python的依赖包）
 
 ```bash
