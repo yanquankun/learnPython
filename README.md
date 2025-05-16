@@ -33,3 +33,19 @@ or
 python[your version] -m pip install requests
 ```
 `如果总是提示安装超时，那你需要一个VPN了`
+
+---
+
+# 项目开始
+
+##### 环境
+
+- python3.10.7
+- pip3 21.2.4
+- macOS 13.4
+
+##### 运行
+
+- 所有学习代码均在section目录下
+- 每个py文件为一个小节
+- 可单独运行该py文件
