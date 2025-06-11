@@ -1,3 +1,9 @@
+"""
+@Desc: 本讲解Python内置数据类型的常见操作
+@Author: Mint.Yan
+@Date: 2025-06-162 14:56:56
+"""
+
 my_list = {"name": "Alice", "age": 30, "city": "New York"}
 
 # 字典的内置函数

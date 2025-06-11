@@ -1,5 +1,5 @@
 """
-@Desc: 本讲解Python内置数据类型的官方文档帮助。
+@Desc: 本讲解Python内置数据类型的官方文档帮助
 @Author: Mint.Yan
 @Date: 2025-06-162 14:51:18
 """

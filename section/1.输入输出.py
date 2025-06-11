@@ -1,3 +1,9 @@
+"""
+@Desc: 本讲解Python内置数据类型的输入输出
+@Author: Mint.Yan
+@Date: 2025-06-162 15:00:40
+"""
+
 def answer():
     # 输出
     print("Hello World")

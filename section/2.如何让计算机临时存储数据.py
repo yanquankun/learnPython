@@ -1,3 +1,9 @@
+"""
+@Desc: 本讲解Python内置数据类型的赋值方式
+@Author: Mint.Yan
+@Date: 2025-06-162 15:00:22
+"""
+
 # 赋值的几种方式
 a = b = 2
 print(a, b)  # a = 2, b = 2

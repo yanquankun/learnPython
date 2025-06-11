@@ -1,3 +1,9 @@
+"""
+@Desc: 本讲解Python内置数据类型的转换实现通讯录功能
+@Author: Mint.Yan
+@Date: 2025-06-162 14:56:46
+"""
+
 from tinydb import TinyDB, Query
 
 # 通讯录功能 样例文件：files/通讯录.csv

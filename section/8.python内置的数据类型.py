@@ -1,3 +1,9 @@
+"""
+@Desc: 本讲解Python内置数据类型的列表
+@Author: Mint.Yan
+@Date: 2025-06-162 14:57:30
+"""
+
 # 内置类型
 from typing import Generic, TypeVar, Union
 

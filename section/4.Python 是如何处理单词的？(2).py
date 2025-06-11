@@ -1,3 +1,9 @@
+"""
+@Desc: 本讲解Python内置字符串方法的使用
+@Author: Mint.Yan
+@Date: 2025-06-162 15:00:05
+"""
+
 # str.count(sub[, start[, end]]) -> int
 # 返回子字符串 sub 在字符串 str 中出现的次数(不包括end位置的字符)
 

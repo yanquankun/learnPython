@@ -1,3 +1,9 @@
+"""
+@Desc: 本讲解Python内置数据类型的常见错误
+@Author: Mint.Yan
+@Date: 2025-06-162 14:56:21
+"""
+
 # 1.访问错误
 # 使用内置方法，访问到某个类型不存在的元素
 # • 列表：IndexError: list index out of range
