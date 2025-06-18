@@ -11,3 +11,4 @@ requests==2.32.3
 six==1.17.0
 tinydb==4.8.2
 urllib3==2.4.0
+argparse==1.4.0
