@@ -40,6 +40,36 @@
 # - newline：行结束符，默认为 None（使用系统默认行结束符）
 # - closefd：是否关闭文件描述符，默认为 True
 
+file = open("../../files/demo.txt", mode='r', encoding='utf-8')
+with file as f:
+    content = f.read()
+    print(content)
+
+print("===" * 10)
+
 # 文件路径处理
+import os
+
+# 获取当前工作目录
+current_dir = os.getcwd()
+os.chdir("../../files")  # 切换工作目录到文件所在目录
+file = open("demo2.txt")
+# 读取文件内容
+content = file.read()
+print(content)
+file.close()
+
+print("===" * 10)
 
 # 文件打开模式
+# 文件读+最后位置加入新内容模式
+file = open("demo3.txt", mode='a+', encoding='utf-8')
+file.write("\n新内容")
+# 将文件指针移动到文件开头 否则读取的是最后位置指针后的内容，是空数据
+file.seek(0)
+content = file.read()  # 读取文件内容
+print(f"文件已写入新内容:\n{content}")
+file.close()
+
+# 最后记得将操作目录切换回原目录
+os.chdir(current_dir)  # 切换回原目录
