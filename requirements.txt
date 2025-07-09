@@ -1,6 +1,7 @@
 certifi==2025.4.26
 charset-normalizer==3.4.2
 idna==3.10
+mpmath==1.3.0
 pynput==1.8.1
 pyobjc-core==11.1
 pyobjc-framework-ApplicationServices==11.1
@@ -9,6 +10,6 @@ pyobjc-framework-CoreText==11.1
 pyobjc-framework-Quartz==11.1
 requests==2.32.3
 six==1.17.0
+sympy==1.14.0
 tinydb==4.8.2
 urllib3==2.4.0
-argparse==1.4.0
