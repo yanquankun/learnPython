@@ -41,3 +41,16 @@ custom_dict = CustomDict({'a': 1, 'b': 2})
 custom_dict['a']  # noqa
 custom_dict['c']  # noqa
 print(custom_dict['c'])  # None
+
+# 类的魔术方法有：
+
+# 初始化对象
+# __init__()
+# 创建对象
+# __new__()
+# 可调用，类似函数
+# __call__()
+# 对象在内存中释放
+# __del__()
+# 返回对象的字符串表示
+# __str__()
