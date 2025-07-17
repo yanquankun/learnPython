@@ -71,6 +71,7 @@ singleton = Singleton()
 singleton2 = Singleton()
 print("===" * 10)
 
+
 # 2. 结构型模式（Structural Patterns）：这些模式涉及对象的组合方式。
 #   - 适配器模式（Adapter Pattern）
 #   - 桥接模式（Bridge Pattern）
@@ -78,7 +79,75 @@ print("===" * 10)
 #   - 装饰器模式（Decorator Pattern）
 #   - 外观模式（Facade Pattern）
 
+# 结构型模式的典型设计模式：适配器模式
+#   通常用来解决不同接口之间的兼容问题
+
+class OldSystem:
+    def old_method(self):
+        return "Old System Method"
+
+
+class NewSystem:
+    def new_method(self):
+        return "New System Method"
+
+
+class Adapter:
+    def __init__(self, old_system):
+        self.old_system = old_system
+
+    def new_method(self):
+        return self.old_system.old_method()
+
+
+#  使用适配器模式
+old_system = OldSystem()
+adapter = Adapter(old_system)
+print(adapter.new_method())  # 输出: Old System Method
+new_system = NewSystem()
+print(new_system.new_method())  # 输出: New System Method
+# 可以看到，我们通过适配器模式将旧系统的接口适配为新系统的接口，使得它们可以互相兼容
+
+print("===" * 10)
+
 
 # 3. 行为型模式（Behavioral Patterns）：这些模式涉及对象之间的交互和职责分配。
 #   - 观察者模式（Observer Pattern）
 #   - 策略模式（Strategy Pattern）
+#   - 命令模式（Command Pattern）
+
+# 行为型模式的典型设计模式：观察者模式
+
+class Subject:
+    def __init__(self):
+        self._observers = []
+
+    def attach(self, observer):
+        self._observers.append(observer)
+
+    def detach(self, observer):
+        self._observers.remove(observer)
+
+    def notify(self, message):
+        for observer in self._observers:
+            observer.update(message)
+
+
+class Observer:
+    def __init__(self, name):
+        self.name = name
+
+    def update(self, message):
+        print(f"{self.name} Observer received message: {message}")
+
+
+# 使用观察者模式
+subject = Subject()
+observer1 = Observer('obs1')
+observer2 = Observer('obs2')
+subject.attach(observer1)
+subject.attach(observer2)
+subject.notify("Hello Observers!")
+# 输出：
+# obs1 Observer received message: Hello Observers!
+# obs2 Observer received message: Hello Observers!
