@@ -24,12 +24,12 @@
 # Executor 对象还支持 ThreadPoolExecutor 方式，使用线程池实现并发
 # 它还支持 ProcessPoolExecuter 方式，以使用多核 CPU
 
-# 并发举个??
+# 并发举个🌰
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 import concurrent.futures
 import urllib.request
 
-# 例子：��用 ThreadPoolExecutor 来并发加载多个 URL
+# 例子：用 ThreadPoolExecutor 来并发加载多个 URL
 URLS = [
     'https://www.baidu.com',
     'https://www.baidu.com',
@@ -65,7 +65,7 @@ def load_url(url, timeout):
 #             print('%r page is %d bytes' % (url, len(data)))
 
 
-# 并行举个??
+# 并行举个🌰
 
 # 例子：使用 ProcessPoolExecutor 来并行计算
 def square(n):
