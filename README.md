@@ -15,6 +15,8 @@ brew install python@3.10
 # 直接去官网下载安装包
 ```
 
+**本项目py和pip均使用3.10！！！**
+
 ##### 生成虚拟环境（使用虚拟环境，类似node项目中单个项目的node_modules，否则使用的是全局python的依赖包）
 
 ```bash
@@ -35,15 +37,15 @@ source venv/bin/activate
 
 ```bash
 # 生成requirements.txt
-pip freeze > requirements.txt
+pip3.10 freeze > requirements.txt
 # 安装requirements.txt中的依赖包   
-pip install -r requirements.txt
+pip3.10 install -r requirements.txt
 ```
 
 ##### 安装依赖包示例
 
 ```bash
-pip install <package_name>
+pip3.10 install <package_name>
 or
 python[your version] -m pip install requests
 ```
