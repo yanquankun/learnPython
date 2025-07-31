@@ -6,7 +6,7 @@
 
 from docx import Document
 from openpyxl import Workbook, load_workbook
-from pathlib import PurePath, Path
+from pathlib import Path
 import os
 
 docs_path = os.path.abspath('../../files/docs/')
