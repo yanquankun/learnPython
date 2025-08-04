@@ -1,0 +1,168 @@
+"""
+@Desc: 本章节主要讲解如何使用Django搭建web服务器
+@Author: Mint.Yan
+@Date: 2025-08-216 13:40:11
+"""
+
+# 本节我们通过创建一个简单的Django项目来演示如何使用Django搭建Web服务器
+
+# 首先，进入我们的files目录，创建一个 dg_example 项目
+
+# 1. 进入files目录
+# cd files
+
+# 2. 创建Django项目，并命名为 dg_example
+# 注意：如果没有安装Django，请先安装Django
+# django-admin startproject dg_example
+
+# 3. 进入 dg_example 目录
+# cd dg_example
+
+# 4. 创建一个新的Django应用，命名为 test_app
+# 注意：如果没有安装Django，请先安装Django
+# python3.10 manage.py startapp test_app
+
+# 5. 在 test_app 目录下创建一个 views.py 文件，并添加以下代码
+# from django.http import HttpResponse
+# def index(request):
+#     return HttpResponse("Hello, Django!")
+
+# 6. 在 dg_example 目录下的 settings.py 文件中，添加 test_app 到 INSTALLED_APPS 列表中
+# INSTALLED_APPS = [
+#     ...
+#     'test_app',  # Custom app for testing
+# ]
+
+# 7. 在 dg_example 目录下的 urls.py 文件中，添加以下代码
+# path('', include('test_app.urls')),
+# 同时在 test_app 目录下创建一个 urls.py 文件，并添加以下代码
+# from django.urls import path
+# from . import views
+# urlpatterns = [
+#     path('', views.index, name='index'),  # Map the root URL to the index view
+# ]
+
+# 8. 生成数据库迁移文件
+# python3.10 manage.py makemigrations
+
+# 9. 应用数据库迁移
+# python3.10 manage.py migrate
+
+# 10. 创建超级用户
+# python3.10 manage.py createsuperuser
+# 输入用户名、电子邮件和密码
+# PS: 本例子中用户名为 admin，电子邮件为 test@163.com 密码为 yqk229218087
+
+# 11. 启动Django开发服务器
+# python3.10 manage.py runserver
+# 访问 http://127.0.0.1:8000/admin/ 即可访问管理后台
+# 访问 http://127.0.1:8000/ 即可访问我们创建的 index 视图
+
+# ok，至此，你已经完成了最基本的Django项目搭建，并可以通过浏览器访问你的Web服务器
+# 注意：如果你在使用过程中遇到任何问题，可以参考Django官方文档，或者在网上搜索相关问题的解决方案
+
+# 下面，将介绍下 test_app 应用的目录结构和文件内容
+# test_app 应用的目录结构和文件内容
+# test_app/
+# ├── __init__.py 这是一个空文件，用于标识该目录是一个Python包
+# ├── admin.py 这是用于注册模型到Django管理后台的文件
+# ├── apps.py 这是应用的配置文件，包含应用的名称和其他配置信息
+# ├── migrations/ 这是用于存放数据库迁移文件的目录
+# │   └── __init__.py 这是一个空文件，用于标识该目录是一个Python包
+# ├── models.py 这是用于定义数据模型的文件
+# ├── tests.py 这是用于编写测试用例的文件
+# ├── urls.py 这是用于定义应用的URL路由的文件
+# └── views.py 这是用于定义视图函数的文件
+
+# 以上就是一个简单的Django应用的目录结构和文件内容
+# 接下来，将介绍如何在Django中使用模型、视图和模板来构建更复杂的Web应用
+# 比如我们实现一个文章列表页，通过文章的id、标题和内容来展示文章的详细信息
+# 同时增加通过文章id查询该文章的功能
+
+# 1. 在 models.py 中定义文章模型
+# from django.db import models
+# class Article(models.Model):
+#     title = models.CharField(max_length=200)  # 文章标题
+#     content = models.TextField()  # 文章内容
+#     created_at = models.DateTimeField(auto_now_add=True)  # 创建时间
+#     updated_at = models.DateTimeField(auto_now=True)  # 更新时间
+#     def __str__(self):
+#         return self.title  # 返回文章标题作为字符串表示
+
+# 2. 在 admin.py 中注册文章模型
+# from django.contrib import admin
+# from .models import Article
+# admin.site.register(Article)  # 注册文章模型到Django管理后台
+
+# 3. 在 views.py 中定义文章列表视图和文章详情视图
+# from django.shortcuts import render, get_object_or_404
+# from .models import Article
+
+# def article_list(request):
+#     articles = Article.objects.all()  # 获取所有文章
+#     return render(request, 'test_app/article_list.html', {'articles': articles})  # 渲染文章列表模板
+
+# def article_detail(request, article_id):
+#     article = get_object_or_404(Article, id=article_id)  # 根据文章ID获取文章
+#     return render(request, 'test_app/article_detail.html', {'article': article})
+
+# 4. 在 urls.py 中定义文章列表和详情的URL路由
+# urlpatterns = [
+#     path('articles/', views.article_list, name='article_list'),  # 文章
+#     path('articles/<int:article_id>/', views.article_detail, name='article_detail'),  # 文章详情
+# ]
+
+# 5. 创建文章列表模板 article_list.html
+# 注意：你需要创建 templates 目录，在该目录中的静态资源会被django找到
+# Django会按以下顺序查找模板：
+# 先：各个应用的 templates 目录
+# 后：settings.py 中 TEMPLATES 配置的 DIRS 目录
+# <!DOCTYPE html>
+# <html>
+# <head>
+#     <title>Article List</title>
+# </head>
+# <body>
+#     <h1>Article List</h1>
+#     <ul>
+#         {% for article in articles %}
+#             <li>
+#                 <a href="{% url 'article_detail' article.id %}">{{ article.title }}</a>
+#                 <p>{{ article.content|truncatewords:30 }}</p>  <!-- 显示文章内容的前30个单词 -->
+#             </li>
+#         {% endfor %}
+#     </ul>
+# </body>
+# </html>
+
+# 6. 创建文章详情模板 article_detail.html
+# <!DOCTYPE html>
+# <html>
+# <head>
+#     <title>{{ article.title }}</title>
+# </head>
+# <body>
+#     <h1>{{ article.title }}</h1>
+#     <p>{{ article.content }}</p>
+#     <p>Created at: {{ article.created_at }}</p>
+#     <p>Updated at: {{ article.updated_at }}</p>
+#     <a href="{% url 'article_list' %}">Back to Article List
+#     </a>
+# </body>
+# </html>
+
+# 7. 生成数据库迁移文件
+# python3.10 manage.py makemigrations
+
+# 8. 应用数据库迁移
+# python3.10 manage.py migrate
+
+# 9. 启动Django开发服务器
+# python3.10 manage.py runserver
+# 访问 http://127.0.1:8000/articles/ 即可访问文章列表页
+# 访问 http://127.0.1:8000/articles/1/ 即可访问文章详情页（假设文章ID为1）
+
+# 10. 在Django管理后台添加文章
+# 访问 http://127.0.1:8000/admin/ 使用之前创建的超级用户登录
+# 在管理后台添加文章，标题和内容可以随意填写
+# 访问文章列表页和详情页，查看添加的文章是否显示正确

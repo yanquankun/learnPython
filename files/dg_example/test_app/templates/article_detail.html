@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ article.title }}</title>
+</head>
+<body>
+<h1>{{ article.title }}</h1>
+<p>{{ article.content }}</p>
+<p>Created at: {{ article.created_at }}</p>
+<p>Updated at: {{ article.updated_at }}</p>
+<a href="{% url 'article_list' %}">Back to Article List
+</a>
+</body>
+</html>
