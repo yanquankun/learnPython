@@ -21,6 +21,9 @@
 # 安装opencv的contrib库，它包含了人脸识别的相关模块
 # pip3.10 install opencv-contrib-python
 
+# OpenCV 官方文档：https://docs.opencv.org/4.x/d6/d00/tutorial_py_root.html
+# 中文文档：https://woshicver.com/
+
 # 下面是opencv的一般使用流程：
 
 # 1. 使用 OpenCV 读取和保存图片

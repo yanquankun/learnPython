@@ -172,3 +172,7 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# ignore self data
+section/（十三）视觉识别/79.人脸识别项目/imgdata/*.jpg
+section/（十三）视觉识别/79.人脸识别项目/trainer/*.yml
