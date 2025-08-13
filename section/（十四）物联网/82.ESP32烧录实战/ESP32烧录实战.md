@@ -14,7 +14,9 @@
 1. 首次烧录前需要擦除ESP32的闪存，在终端中输入以下命令：
 
 ```bash
-esptool.py erase_flash
+esptool.py --chip <型号> --port <串口号> erase_flash
+# 对应到我自己的就是
+esptool.py --chip esp32s3 --port /dev/cu.usbmodem51850412331 erase_flash     
 ```
 
 可以看到如下输出：
