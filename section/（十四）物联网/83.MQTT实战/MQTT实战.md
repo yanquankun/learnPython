@@ -45,7 +45,7 @@
 ![mqtt2](https://oss.yanquankun.cn/oss-cdn/img/mqtt2.png!watermark)
 
 *注意：*
-如果你在使用时，提示mqtt [Errno 116] ETIMEDOUT
+如果你在使用时，提示mqtt `[Errno 116] ETIMEDOUT`
 
 那多半是你的网络连接有问题，或者是你的MQTT服务器没有正确配置
 
