@@ -7,7 +7,9 @@ import ssd1306
 import time
 import oled_layout
 
-if wifi.isconnected():
+wifiStatu = False if wifi is None else wifi.isconnected()
+
+if wifiStatu:
     print("✅ 已连接网络:", wifi.ifconfig())
 else:
     print("❌ 网络未连接")
@@ -29,11 +31,14 @@ oled = ssd1306.SSD1306_I2C(128, 64, i2c)
 def get_time_string(wifi_on):
     """联网则从网络同步时间，否则用本地 RTC"""
     try:
-        if wifi_on and wifi.isconnected():
+        if wifi_on:
             import ntptime
-            ntptime.settime()  # 同步 NTP 时间到 RTC
-        t = time.localtime(time.time() + 8 * 3600)
-        # 格式化 YYYY-MM-DD HH:mm:ss
+            ntptime.settime()
+
+            t = time.localtime()  # 默认是 UTC
+        else:
+            t = time.localtime(time.time() + 8 * 3600)
+
         return "{:04d}-{:02d}-{:02d} {:02d}:{:02d}:{:02d}".format(
             t[0], t[1], t[2], t[3], t[4], t[5]
         )
@@ -49,11 +54,10 @@ while True:
         h = round(sensor.humidity(), 1)
         print(f"{t:.1f}°C, {h:.1f}%")
 
-        wifi_on = wifi.isconnected()
-        now_str = get_time_string(wifi_on)
+        now_str = get_time_string(wifiStatu)
 
         # --- 渲染 OLED ---
-        oled_layout.render(oled, t, h, now_str, wifi_on)
+        oled_layout.render(oled, t, h, now_str, wifiStatu)
 
         # 发布 MQTT 消息
         if qtStatu is True:
