@@ -1,80 +1,62 @@
-# mqtt_pub_retry.py - ESP32版本，带自动重连机制
+# mqtt_pub.py — minimal MQTT helper for ESP32/MicroPython
+# Responsibilities:
+#   1) connect_mqtt(...) : establish a global MQTT client
+#   2) mqtt_publish_env(temp, humi, timestamp, mqtt_topic=...) : publish JSON once
+#      (only if connected; otherwise return False)
+
 from umqtt.simple import MQTTClient
-import network
-import time
 import machine
+import network
+import ujson
 
-import socket
-print(socket.getaddrinfo("broker.emqx.io", 1883))
+# ---- Module-global MQTT client ----
+_mqtt_client = None
 
-MAX_RETRIES = 5       # 最大重试次数
-RETRY_INTERVAL = 5    # 重试间隔秒数
+# ---- Defaults (can be overridden via function args) ----
+MQTT_SERVER = "broker.emqx.io"
+MQTT_PORT = 1883
+MQTT_TOPIC = b"esp32/senor"
 
-def check_network():
-    """检查网络连接状态"""
-    wifi = network.WLAN(network.STA_IF)
-    if wifi.isconnected():
-        print("网络已连接:", wifi.ifconfig())
+
+def connect_mqtt(mqtt_server=MQTT_SERVER, mqtt_port=MQTT_PORT, client_id=None):
+    """Connect to MQTT and keep a global client. Return True on success, False otherwise."""
+    global _mqtt_client
+    if client_id is None:
+        try:
+            client_id = "esp32_" + machine.unique_id().hex()
+        except Exception:
+            client_id = "esp32_client"
+    try:
+        c = MQTTClient(client_id, mqtt_server, mqtt_port)
+        c.connect()
+        _mqtt_client = c
+        print("✓ MQTT已连接: {}:{} (client_id={})".format(mqtt_server, mqtt_port, client_id))
         return True
-    else:
-        print("网络未连接")
+    except Exception as e:
+        print("✗ MQTT连接失败:", e)
+        _mqtt_client = None
         return False
 
-def mqtt_test_with_retry():
-    """测试MQTT连接和发布，支持自动重连"""
-    if not check_network():
-        return
 
-    server = "broker.emqx.io"
-    port = 1883
-    client_id = "esp32_client_" + str(machine.unique_id().hex())
-    topic = b"temp_topic"
-
-    for attempt in range(1, MAX_RETRIES + 1):
-        try:
-            print(f"\n尝试连接MQTT服务器 ({attempt}/{MAX_RETRIES}): {server}:{port}")
-            print(f"客户端ID: {client_id}")
-
-            client = MQTTClient(client_id, server, port)
-            client.connect()
-            print("✓ MQTT连接成功!")
-
-            message = f"Hello from ESP32! Time: {time.ticks_ms()}"
-            print(f"发布消息到主题 '{topic.decode()}' 内容: {message}")
-            client.publish(topic, message.encode())
-            print("✓ 消息发布成功!")
-
-            client.disconnect()
-            print("✓ MQTT连接已断开")
-            break  # 成功连接并发布后退出循环
-
-        except OSError as e:
-            error_code = e.args[0] if e.args else 0
-            print(f"✗ MQTT连接错误: {e}")
-
-            if error_code == 113:  # ECONNABORTED
-                print("  原因: 连接被中断")
-                print("  建议: 检查网络稳定性和防火墙设置")
-            elif error_code == 110:  # ETIMEDOUT
-                print("  原因: 连接超时")
-                print("  建议: 检查服务器地址和端口")
-            elif error_code == -2:  # Name resolution failed
-                print("  原因: DNS解析失败")
-                print("  建议: 检查DNS设置")
-            else:
-                print(f"  错误代码: {error_code}")
-
-            if attempt < MAX_RETRIES:
-                print(f"  等待 {RETRY_INTERVAL} 秒后重试...")
-                time.sleep(RETRY_INTERVAL)
-            else:
-                print("  已达到最大重试次数，停止尝试。")
-
-        except Exception as e:
-            print(f"✗ 其他错误: {e}")
-            break  # 对于未知错误直接退出循环
-
-# 运行测试
-print("=== MQTT测试开始 ===")
-mqtt_test_with_retry()
-print("=== MQTT测试结束 ===")
+def mqtt_publish_env(temp, humi, timestamp, mqtt_topic=MQTT_TOPIC):
+    """Publish one JSON message {temperature_c, humidity_pct, timestamp}.
+    Only works when MQTT is connected (via connect_mqtt). Returns True/False.
+    """
+    global _mqtt_client
+    if _mqtt_client is None:
+        print("✗ 未连接MQTT，放弃发布")
+        return False
+    try:
+        payload = {
+            "temperature_c": None if temp is None else round(float(temp), 1),
+            "humidity_pct": None if humi is None else round(float(humi), 1),
+            "timestamp": str(timestamp or ""),
+        }
+        msg = ujson.dumps(payload)
+        topic = mqtt_topic if isinstance(mqtt_topic, (bytes, bytearray)) else str(mqtt_topic).encode()
+        _mqtt_client.publish(topic, msg)
+        print("✓ 发布成功 -> {}: {}".format(topic.decode(), msg))
+        return True
+    except Exception as e:
+        print("✗ 发布失败:", e)
+        return False

@@ -1,3 +1,2 @@
 import scanWifi
-import wifi
-import mqtt_pub
+import sensor

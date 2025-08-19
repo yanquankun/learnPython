@@ -57,3 +57,26 @@
 - 尽量不要使用公司内网，可能会有限制，可以切换到个人热点或家庭网络
 - 在手机设置中查看热点配置，确保热点是开启的，并且没有设置 Wi-Fi 隔离 或 MAC 过滤。
 - 确保热点运行的是 2.4GHz 网络（确保你的手机热点是 2.4GHz，而不是 5GHz，因为大部分 ESP32 只支持 2.4GHz Wi-Fi），ios上在热点页面打开最大兼容性按钮即可
+
+6. 到了这一步，我们可以接入硬件设备了，具体的设备说明可以参考同目录的 `设备说明.md` 文件，同时有关LED需要的驱动，可以在 `LED屏幕渲染驱动` 目录中找到，关于LED屏幕渲染可参考 `LED屏幕开发生成包` 目录，具体使用可参考其目录中的 `reademe.md` 文件，我们先把这一步的步骤准备好
+
+> 当我们不了解硬件接线时，我们可以通过[wokwi](https://wokwi.com/)进行模拟接线，调试设备，这里大家可以参考[我的wokwi](https://wokwi.com/projects/439679324459191297)
+> 
+> ![image-20250819155716328](https://oss.yanquankun.cn/oss-cdn/img/image-20250819155716328.png!watermark)
+> 
+
+7. 接下来可以看下我的实际设备的截图，以供参考，我们运行在thonny中代码全部都在 `mqtt-project` 目录下，大家上传到开发板中即可
+
+![48cd3323fcc905ac763b6a91a041e25a](https://oss.yanquankun.cn/oss-cdn/img/48cd3323fcc905ac763b6a91a041e25a.jpg!watermark)
+
+*如果在连接LED后，总是提示OSError: [Errno 19] ENODEV，那可以从如下步骤排查：*
+- 检查LED屏幕的电源是否正常供电，确保VCC和GND连接正确
+- 确认LED屏幕的接线是否正确，尤其是SCL和SDA引脚是否连接到正确的GPIO引脚上，有的引脚可能无法使用，你可以使用 `mqtt-project/checkLedGpi.py` 文件中的代码来检查LED屏幕的哪些GPIO引脚组合可以正常使用
+
+8. 如果你想将数据传送到手机上，可以使用 `MQTTX` 客户端订阅 `temp_topic` 主题，或者在手机上安装 `MQTT Dash` 等应用进行订阅和发布消息，这里我就只在 `MQTTX` 中订阅了 `temp_topic` 主题以供各位参考，运行后可以看到如下输出：
+
+![image-20250819175335087](https://oss.yanquankun.cn/oss-cdn/img/image-20250819175335087.png!watermark)
+
+![image-20250819175348836](https://oss.yanquankun.cn/oss-cdn/img/image-20250819175348836.png!watermark)
+
+**到此，我们的python硬件烧录学习完成，当然，我们学的只是最简单的demo示例，真正开发时，还需要我们继续深入学习才行~**
